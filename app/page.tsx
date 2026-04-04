@@ -16,10 +16,12 @@ import {
   Cpu
 } from "lucide-react";
 
+// 1. Componente Glow
 const Glow = ({ className = "" }: { className?: string }) => (
   <div className={`absolute rounded-full bg-orange-600/20 blur-[120px] pointer-events-none ${className}`} />
 );
 
+// 2. Componente GlassCard
 const GlassCard = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => (
   <motion.div
     whileHover={{ y: -8, scale: 1.02 }}
@@ -31,23 +33,41 @@ const GlassCard = ({ children, className = "" }: { children: React.ReactNode; cl
   </motion.div>
 );
 
+// 3. Subcomponente ServiceCard (Definido antes do uso para evitar erros de referência)
+function ServiceCard({ icon, title, desc, className = "" }: { icon: React.ReactNode, title: string, desc: string, className?: string }) {
+  return (
+    <GlassCard className={className}>
+      <div className="text-orange-500 mb-6 group-hover:scale-110 transition-transform duration-300">
+        {React.cloneElement(icon as React.ReactElement, { size: 40 })}
+      </div>
+      <h3 className="text-2xl font-bold mb-4 tracking-tight group-hover:text-orange-500 transition-colors">{title}</h3>
+      <p className="text-gray-400 leading-relaxed group-hover:text-gray-300 transition-colors">{desc}</p>
+      <div className="mt-8 flex items-center gap-2 text-orange-500 font-bold text-sm uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity">
+        Saiba mais <ArrowRight size={16} />
+      </div>
+    </GlassCard>
+  );
+}
+
+// 4. Componente Principal
 export default function LandingPage() {
   const whatsappLink = "https://wa.me/SEUNUMERO";
 
   return (
     <div className="min-h-screen bg-[#020202] text-white selection:bg-orange-500/30 overflow-x-hidden">
       
-      {/* Background Grid & Global Glows - CORRIGIDO: Removido 'size' */}
+      {/* Background Grid */}
       <div className="fixed inset-0 z-0 opacity-25 pointer-events-none" 
            style={{ 
              backgroundImage: `linear-gradient(#1a1a1a 1px, transparent 1px), linear-gradient(90deg, #1a1a1a 1px, transparent 1px)`, 
              backgroundSize: '40px 40px' 
            }} 
       />
+      
       <Glow className="top-[-10%] left-[-10%] w-[500px] h-[500px]" />
       <Glow className="bottom-[10%] right-[-10%] w-[600px] h-[600px] bg-orange-600/10" />
 
-      {/* --- HERO SECTION --- */}
+      {/* Hero */}
       <section className="relative pt-32 pb-20 px-6 lg:px-8 max-w-7xl mx-auto flex flex-col items-center text-center">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
@@ -56,171 +76,65 @@ export default function LandingPage() {
           transition={{ duration: 0.8 }}
           className="z-10"
         >
-          <span className="px-4 py-1.5 rounded-full border border-orange-500/30 bg-orange-500/10 text-orange-500 text-sm font-medium mb-6 inline-block backdrop-blur-sm">
-            Infraestrutura de Elite para Escala
+          <span className="px-4 py-1.5 rounded-full border border-orange-500/30 bg-orange-500/10 text-orange-500 text-sm font-medium mb-6 inline-block">
+            Infraestrutura de Elite
           </span>
           <h1 className="text-5xl md:text-8xl font-bold tracking-tight mb-8 leading-[1.1]">
-            Transforme <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-orange-600 to-orange-500">Caos em Lucro</span> Previsível
+            Transforme <span className="text-orange-500">Caos em Lucro</span>
           </h1>
-          <p className="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
-            Pare de lutar com ferramentas e processos quebrados. Construímos o ecossistema digital que converte curiosos em clientes, no piloto automático.
+          <p className="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto mb-10">
+            Escalamos sua operação digital com engenharia de dados e automação agressiva.
           </p>
-          
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <motion.a
-              href={whatsappLink}
-              whileHover={{ scale: 1.05, boxShadow: "0 0 30px rgba(249, 115, 22, 0.4)" }}
-              whileTap={{ scale: 0.95 }}
-              className="px-8 py-4 bg-orange-600 hover:bg-orange-500 text-white font-bold rounded-xl flex items-center gap-3 transition-all text-lg group shadow-[0_0_15px_rgba(249,115,22,0.2)]"
-            >
-              SOLICITAR DIAGNÓSTICO
-              <ArrowRight className="group-hover:translate-x-1 transition-transform" />
-            </motion.a>
-            <span className="text-sm text-gray-500 font-mono italic">Vagas limitadas para implementação este mês.</span>
-          </div>
-        </motion.div>
-
-        <motion.div 
-          initial={{ opacity: 0, scale: 0.9 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.2, duration: 0.8 }}
-          className="mt-20 w-full relative group"
-        >
-          <div className="absolute -inset-1 bg-gradient-to-r from-orange-600 to-orange-900 rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-1000"></div>
-          <div className="relative rounded-2xl border border-white/10 bg-black/40 backdrop-blur-xl p-4 aspect-video flex items-center justify-center overflow-hidden">
-             <div className="absolute inset-0 bg-gradient-to-t from-orange-600/10 to-transparent" />
-             <BarChart3 size={80} className="text-orange-500/50 animate-pulse" />
-          </div>
+          <a href={whatsappLink} className="px-8 py-4 bg-orange-600 hover:bg-orange-500 text-white font-bold rounded-xl transition-all shadow-[0_0_20px_rgba(249,115,22,0.3)]">
+            SOLICITAR DIAGNÓSTICO
+          </a>
         </motion.div>
       </section>
 
-      {/* --- PROBLEMA SECTION --- */}
-      <section className="py-24 px-6 max-w-7xl mx-auto relative">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 italic uppercase tracking-widest text-orange-500">O Custo da Ineficiência</h2>
-          <p className="text-gray-500">Sua empresa está sangrando dinheiro onde você não vê.</p>
-        </div>
-
+      {/* Problemas */}
+      <section className="py-24 px-6 max-w-7xl mx-auto">
         <div className="grid md:grid-cols-3 gap-8">
-          {[
-            { t: "Anúncios que não convertem", d: "Você gasta fortunas em tráfego que chega em páginas lentas e amadoras. A conta não fecha.", icon: <Target className="text-orange-500" /> },
-            { t: "Leads Esfriando", d: "Seu time comercial demora horas para responder. O lead esquece que você existe em minutos.", icon: <Zap className="text-orange-500" /> },
-            { t: "Falta de Dados", d: "Você toma decisões baseadas no 'feeling' porque seus dados estão espalhados em planilhas confusas.", icon: <Database className="text-orange-500" /> }
-          ].map((item, i) => (
-            <GlassCard key={i}>
-              <div className="p-3 bg-orange-500/10 rounded-lg w-fit mb-6 border border-orange-500/20">
-                {item.icon}
-              </div>
-              <h3 className="text-xl font-bold mb-4">{item.t}</h3>
-              <p className="text-gray-400 leading-relaxed">{item.d}</p>
-            </GlassCard>
-          ))}
+          <GlassCard>
+            <Target className="text-orange-500 mb-4" />
+            <h3 className="text-xl font-bold mb-2">Anúncios Fracos</h3>
+            <p className="text-gray-400">Tráfego que não converte e queima seu caixa.</p>
+          </GlassCard>
+          <GlassCard>
+            <Zap className="text-orange-500 mb-4" />
+            <h3 className="text-xl font-bold mb-2">Leads Esfriando</h3>
+            <p className="text-gray-400">Demora no atendimento mata sua venda.</p>
+          </GlassCard>
+          <GlassCard>
+            <Database className="text-orange-500 mb-4" />
+            <h3 className="text-xl font-bold mb-2">Sem Dados</h3>
+            <p className="text-gray-400">Decisões no escuro sem métricas reais.</p>
+          </GlassCard>
         </div>
       </section>
 
-      {/* --- SERVIÇOS SECTION --- */}
-      <section className="py-24 px-6 bg-gradient-to-b from-transparent via-orange-950/5 to-transparent">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
-            <div className="max-w-xl">
-              <h2 className="text-4xl md:text-5xl font-bold mb-6">Nossa Engenharia de <span className="text-orange-500">Crescimento</span></h2>
-              <p className="text-gray-400">Soluções modulares para quem não aceita nada menos que o topo do mercado.</p>
-            </div>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <ServiceCard 
-              icon={<MousePointerClick />} 
-              title="Landing Pages Rápidas" 
-              desc="Websites ultra-leves focados em conversão agressiva. Tempo de carregamento inferior a 1s para dominar o PageSpeed."
-            />
-            <ServiceCard 
-              icon={<Layers />} 
-              title="Integrações & Webhooks" 
-              desc="Conectamos seu CRM, ERP e ferramentas de marketing em um sistema único que trabalha enquanto você dorme."
-            />
-            <ServiceCard 
-              icon={<LineChart />} 
-              title="Dashboards de Dados" 
-              desc="Visibilidade total. KPIs em tempo real para você saber exatamente de onde vem cada centavo de lucro."
-            />
-            <ServiceCard 
-              icon={<MessageSquareCode />} 
-              title="SDR com IA" 
-              desc="Automação de atendimento que qualifica leads via WhatsApp 24/7 com linguagem humana e persuasiva."
-            />
-            <ServiceCard 
-              icon={<Cpu />} 
-              title="Tráfego Pago Elite" 
-              desc="Estratégias avançadas de Google e Meta Ads com foco em ROI real, não apenas métricas de vaidade."
-              className="lg:col-span-2"
-            />
-          </div>
-        </div>
-      </section>
-
-      {/* --- PROCESSO SECTION --- */}
+      {/* Serviços */}
       <section className="py-24 px-6 max-w-7xl mx-auto">
-        <h2 className="text-center text-4xl font-bold mb-20 uppercase tracking-tighter">O Caminho até a <span className="text-orange-500">Escala</span></h2>
-        
-        <div className="grid md:grid-cols-4 gap-4 relative">
-          {[
-            { n: "01", t: "Diagnóstico", d: "Mapeamos os gargalos e as minas de ouro do seu negócio." },
-            { n: "02", t: "Estruturação", d: "Criamos a arquitetura técnica e visual do projeto." },
-            { n: "03", t: "Implementação", d: "Deploy rápido e integrações sem atrito." },
-            { n: "04", t: "Escala", d: "Otimização contínua focada em aumento de margem." }
-          ].map((step, i) => (
-            <div key={i} className="relative p-8 border-l border-white/10 hover:border-orange-500 transition-colors group">
-              <span className="text-6xl font-black text-white/5 absolute top-4 right-4 group-hover:text-orange-500/10 transition-colors">{step.n}</span>
-              <h3 className="text-2xl font-bold mb-4 text-orange-500">{step.t}</h3>
-              <p className="text-gray-400">{step.d}</p>
-            </div>
-          ))}
+        <h2 className="text-4xl font-bold mb-12">Nossos <span className="text-orange-500">Serviços</span></h2>
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <ServiceCard icon={<MousePointerClick />} title="Landing Pages" desc="Foco total em velocidade e conversão." />
+          <ServiceCard icon={<MessageSquareCode />} title="SDR com IA" desc="Qualificação automática no WhatsApp." />
+          <ServiceCard icon={<LineChart />} title="Dashboards" desc="Controle total do seu ROI." />
         </div>
       </section>
 
-      {/* --- CTA FINAL --- */}
-      <section className="py-24 px-6 max-w-7xl mx-auto">
-        <div className="relative rounded-[3rem] bg-gradient-to-br from-orange-600 to-orange-900 p-12 md:p-24 overflow-hidden text-center shadow-[0_0_100px_rgba(249,115,22,0.2)]">
-          <div className="absolute inset-0 bg-black/20 opacity-10" />
-          <motion.div 
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            className="relative z-10"
-          >
-            <h2 className="text-4xl md:text-7xl font-black mb-8 text-white uppercase tracking-tighter text-balance">
-              PRONTO PARA O PRÓXIMO NÍVEL?
-            </h2>
-            <p className="text-white/80 text-xl mb-12 max-w-2xl mx-auto font-medium leading-relaxed">
-              Agende uma consultoria técnica gratuita e descubra o potencial oculto da sua operação.
-            </p>
-            <motion.a
-              href={whatsappLink}
-              whileHover={{ scale: 1.05, backgroundColor: "#fff", color: "#ea580c" }}
-              className="px-12 py-6 bg-white text-orange-600 font-black rounded-2xl text-2xl shadow-2xl inline-block transition-all"
-            >
-              FALAR COM ESPECIALISTA
-            </motion.a>
-          </motion.div>
+      {/* CTA Final */}
+      <section className="py-24 px-6 max-w-7xl mx-auto text-center">
+        <div className="bg-gradient-to-br from-orange-600 to-orange-900 p-12 rounded-[3rem]">
+          <h2 className="text-4xl md:text-6xl font-black mb-8">VAMOS ESCALAR?</h2>
+          <a href={whatsappLink} className="px-10 py-5 bg-white text-orange-600 font-bold rounded-2xl text-xl">
+            FALAR COM ESPECIALISTA
+          </a>
         </div>
       </section>
 
-      {/* --- FOOTER --- */}
-      <footer className="py-12 border-t border-white/5 text-center text-gray-600 text-sm">
-        <p>© {new Date().getFullYear()} NORTE SEVEN. Todos os direitos reservados.</p>
-        <p className="mt-2 font-mono uppercase tracking-[0.3em] text-[10px]">Data-Driven Performance Engineering</p>
+      <footer className="py-12 text-center text-gray-600 border-t border-white/5 mt-12">
+        <p>© 2026 DATAFLOW. All rights reserved.</p>
       </footer>
     </div>
   );
 }
-
-function ServiceCard({ icon, title, desc, className = "" }: { icon: React.ReactNode, title: string, desc: string, className?: string }) {
-  return (
-    <GlassCard className={className}>
-      <div className="text-orange-500 mb-6 group-hover:scale-110 transition-transform duration-300">
-        {React.cloneElement(icon as React.ReactElement, { size: 40 })}
-      </div>
-      <h3 className="text-2xl font-bold mb-4 tracking-tight group-hover:text-orange-500 transition-colors">{title}</h3>
-      <p className="text-gray-400 leading-relaxed group
