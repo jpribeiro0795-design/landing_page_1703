@@ -16,12 +16,10 @@ import {
   Cpu
 } from "lucide-react";
 
-// Componente de Glow Reutilizável
 const Glow = ({ className = "" }: { className?: string }) => (
   <div className={`absolute rounded-full bg-orange-600/20 blur-[120px] pointer-events-none ${className}`} />
 );
 
-// Componente de Card com Glassmorphism
 const GlassCard = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => (
   <motion.div
     whileHover={{ y: -8, scale: 1.02 }}
@@ -39,9 +37,12 @@ export default function LandingPage() {
   return (
     <div className="min-h-screen bg-[#020202] text-white selection:bg-orange-500/30 overflow-x-hidden">
       
-      {/* Background Grid & Global Glows */}
-      <div className="fixed inset-0 z-0 opacity-25" 
-           style={{ backgroundImage: `linear-gradient(#1a1a1a 1px, transparent 1px), linear-gradient(90deg, #1a1a1a 1px, transparent 1px)`, size: '40px 40px', backgroundSize: '40px 40px' }} 
+      {/* Background Grid & Global Glows - CORRIGIDO: Removido 'size' */}
+      <div className="fixed inset-0 z-0 opacity-25 pointer-events-none" 
+           style={{ 
+             backgroundImage: `linear-gradient(#1a1a1a 1px, transparent 1px), linear-gradient(90deg, #1a1a1a 1px, transparent 1px)`, 
+             backgroundSize: '40px 40px' 
+           }} 
       />
       <Glow className="top-[-10%] left-[-10%] w-[500px] h-[500px]" />
       <Glow className="bottom-[10%] right-[-10%] w-[600px] h-[600px] bg-orange-600/10" />
@@ -50,7 +51,8 @@ export default function LandingPage() {
       <section className="relative pt-32 pb-20 px-6 lg:px-8 max-w-7xl mx-auto flex flex-col items-center text-center">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
           transition={{ duration: 0.8 }}
           className="z-10"
         >
@@ -78,21 +80,17 @@ export default function LandingPage() {
           </div>
         </motion.div>
 
-        {/* Hero Visual */}
         <motion.div 
           initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.4, duration: 1 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.2, duration: 0.8 }}
           className="mt-20 w-full relative group"
         >
           <div className="absolute -inset-1 bg-gradient-to-r from-orange-600 to-orange-900 rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-1000"></div>
           <div className="relative rounded-2xl border border-white/10 bg-black/40 backdrop-blur-xl p-4 aspect-video flex items-center justify-center overflow-hidden">
              <div className="absolute inset-0 bg-gradient-to-t from-orange-600/10 to-transparent" />
              <BarChart3 size={80} className="text-orange-500/50 animate-pulse" />
-             <div className="absolute bottom-10 left-10 text-left">
-                <div className="h-2 w-32 bg-orange-500/20 rounded-full mb-2" />
-                <div className="h-2 w-48 bg-orange-500/10 rounded-full" />
-             </div>
           </div>
         </motion.div>
       </section>
@@ -182,32 +180,17 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* --- DIFERENCIAL SECTION --- */}
-      <section className="py-24 px-6 max-w-5xl mx-auto text-center border-t border-white/5">
-        <CheckCircle2 size={48} className="mx-auto text-orange-500 mb-8" />
-        <h2 className="text-4xl font-bold mb-8 italic">Não vendemos serviços, entregamos um <span className="underline decoration-orange-500/50">Sistema de Lucro</span></h2>
-        <div className="grid md:grid-cols-2 gap-12 text-left mt-16">
-          <div className="space-y-4">
-            <h4 className="text-orange-500 font-bold text-lg">X Como o mercado faz:</h4>
-            <p className="text-gray-500 italic">"Site bonitinho", automações que quebram, falta de suporte técnico e foco em visual, não em vendas.</p>
-          </div>
-          <div className="space-y-4">
-            <h4 className="text-orange-500 font-bold text-lg">✓ Como nós fazemos:</h4>
-            <p className="text-gray-100">Código limpo, dados centralizados, foco obsessivo em conversão e suporte de engenharia de verdade.</p>
-          </div>
-        </div>
-      </section>
-
       {/* --- CTA FINAL --- */}
       <section className="py-24 px-6 max-w-7xl mx-auto">
         <div className="relative rounded-[3rem] bg-gradient-to-br from-orange-600 to-orange-900 p-12 md:p-24 overflow-hidden text-center shadow-[0_0_100px_rgba(249,115,22,0.2)]">
-          <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10" />
+          <div className="absolute inset-0 bg-black/20 opacity-10" />
           <motion.div 
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
             className="relative z-10"
           >
-            <h2 className="text-4xl md:text-7xl font-black mb-8 text-white uppercase tracking-tighter">
+            <h2 className="text-4xl md:text-7xl font-black mb-8 text-white uppercase tracking-tighter text-balance">
               PRONTO PARA O PRÓXIMO NÍVEL?
             </h2>
             <p className="text-white/80 text-xl mb-12 max-w-2xl mx-auto font-medium leading-relaxed">
@@ -221,7 +204,6 @@ export default function LandingPage() {
               FALAR COM ESPECIALISTA
             </motion.a>
           </motion.div>
-          <Glow className="top-0 right-0 w-80 h-80 bg-white/20" />
         </div>
       </section>
 
@@ -234,7 +216,6 @@ export default function LandingPage() {
   );
 }
 
-// Subcomponente de Card de Serviço
 function ServiceCard({ icon, title, desc, className = "" }: { icon: React.ReactNode, title: string, desc: string, className?: string }) {
   return (
     <GlassCard className={className}>
@@ -242,10 +223,4 @@ function ServiceCard({ icon, title, desc, className = "" }: { icon: React.ReactN
         {React.cloneElement(icon as React.ReactElement, { size: 40 })}
       </div>
       <h3 className="text-2xl font-bold mb-4 tracking-tight group-hover:text-orange-500 transition-colors">{title}</h3>
-      <p className="text-gray-400 leading-relaxed group-hover:text-gray-300 transition-colors">{desc}</p>
-      <div className="mt-8 flex items-center gap-2 text-orange-500 font-bold text-sm uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity">
-        Saiba mais <ArrowRight size={16} />
-      </div>
-    </GlassCard>
-  );
-}
+      <p className="text-gray-400 leading-relaxed group
