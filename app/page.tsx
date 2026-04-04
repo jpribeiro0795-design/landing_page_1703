@@ -1,79 +1,87 @@
-import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
-
-export default function LandingPage() {
+export default function Home() {
   return (
-    <div className="min-h-screen bg-black text-white overflow-hidden relative">
+    <main className="min-h-screen bg-black text-white overflow-hidden relative">
 
-      {/* Background Glow */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(0,255,255,0.15),transparent_40%),radial-gradient(circle_at_80%_30%,rgba(255,0,255,0.15),transparent_40%),radial-gradient(circle_at_50%_80%,rgba(0,150,255,0.15),transparent_50%)] blur-3xl" />
+      {/* BACKGROUND GLOW */}
+      <div className="absolute inset-0 -z-10">
+        <div className="absolute w-[600px] h-[600px] bg-purple-600 opacity-30 blur-[200px] top-[-100px] left-[-100px] animate-pulse" />
+        <div className="absolute w-[500px] h-[500px] bg-blue-600 opacity-30 blur-[200px] bottom-[-100px] right-[-100px] animate-pulse" />
+      </div>
 
-      {/* Hero */}
-      <section className="relative z-10 flex flex-col items-center justify-center text-center px-6 py-32">
-        <motion.h1
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="text-5xl md:text-7xl font-bold leading-tight bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-500 bg-clip-text text-transparent"
-        >
-          Crescimento previsível
-          <br /> com dados e performance
-        </motion.h1>
+      {/* HERO */}
+      <section className="flex flex-col items-center justify-center text-center px-6 py-32">
 
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
-          className="mt-6 max-w-xl text-white/70"
-        >
-          Data, automação e tráfego pago trabalhando juntos pra escalar sua operação.
-        </motion.p>
+        <h1 className="text-5xl md:text-7xl font-bold leading-tight mb-6 bg-gradient-to-r from-purple-400 via-blue-400 to-purple-600 text-transparent bg-clip-text">
+          Sua operação<br />travando?
+        </h1>
 
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.5 }}
-          className="mt-10"
-        >
-          <Button className="text-lg px-8 py-6 rounded-2xl bg-white text-black hover:bg-white/90 shadow-[0_0_40px_rgba(255,255,255,0.3)]">
-            Quero escalar
-          </Button>
-        </motion.div>
+        <p className="text-lg md:text-xl text-gray-300 max-w-xl mb-10">
+          Páginas lentas, processos manuais e dados bagunçados estão custando dinheiro — todos os dias.
+        </p>
+
+        <button className="px-8 py-4 rounded-2xl bg-gradient-to-r from-purple-500 to-blue-500 font-semibold text-lg shadow-[0_0_40px_rgba(139,92,246,0.6)] hover:scale-105 transition">
+          Quero automatizar agora
+        </button>
+
       </section>
 
-      {/* Cards Section */}
-      <section className="relative z-10 grid md:grid-cols-3 gap-8 px-6 pb-32 max-w-6xl mx-auto">
+      {/* SERVICES */}
+      <section className="grid md:grid-cols-3 gap-6 px-6 pb-32 max-w-6xl mx-auto">
 
-        {["Data & BI", "Automação", "Tráfego Pago"].map((item, i) => (
-          <motion.div
+        {[
+          {
+            title: "Páginas rápidas",
+            desc: "Sites que carregam instantaneamente e não fazem o cliente desistir."
+          },
+          {
+            title: "Integrações",
+            desc: "Tudo conectado. Sem copiar e colar manual nunca mais."
+          },
+          {
+            title: "Dashboards",
+            desc: "Seus números organizados pra você tomar decisão rápida."
+          },
+          {
+            title: "SDR com IA",
+            desc: "Respostas automáticas que não deixam lead esfriar."
+          },
+          {
+            title: "Google Ads",
+            desc: "Campanhas que trazem gente pronta pra comprar."
+          },
+          {
+            title: "Meta Ads",
+            desc: "Anúncios que param o scroll e geram clique."
+          }
+        ].map((item, i) => (
+          <div
             key={i}
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: i * 0.2 }}
-            className="p-8 rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 hover:border-white/30 transition-all shadow-[0_0_30px_rgba(0,255,255,0.1)] hover:shadow-[0_0_60px_rgba(255,0,255,0.2)]"
+            className="group p-6 rounded-2xl backdrop-blur-xl bg-white/5 border border-white/10 hover:border-purple-500 transition hover:scale-[1.02]"
           >
-            <h3 className="text-xl font-semibold mb-4">{item}</h3>
-            <p className="text-white/60">
-              Soluções focadas em performance e crescimento escalável.
+            <h3 className="text-xl font-semibold mb-3 group-hover:text-purple-400 transition">
+              {item.title}
+            </h3>
+            <p className="text-gray-400">
+              {item.desc}
             </p>
-          </motion.div>
+          </div>
         ))}
 
       </section>
 
-      {/* Floating Glow Elements */}
-      <motion.div
-        animate={{ y: [0, -30, 0] }}
-        transition={{ repeat: Infinity, duration: 6 }}
-        className="absolute w-72 h-72 bg-cyan-500/20 rounded-full blur-3xl top-10 left-10"
-      />
+      {/* CTA FINAL */}
+      <section className="text-center pb-32 px-6">
 
-      <motion.div
-        animate={{ y: [0, 30, 0] }}
-        transition={{ repeat: Infinity, duration: 8 }}
-        className="absolute w-72 h-72 bg-purple-500/20 rounded-full blur-3xl bottom-10 right-10"
-      />
+        <h2 className="text-3xl md:text-5xl font-bold mb-6">
+          Ou você resolve isso agora<br />ou continua perdendo dinheiro
+        </h2>
 
-    </div>
+        <button className="px-10 py-5 rounded-2xl bg-gradient-to-r from-purple-500 to-blue-500 text-xl font-semibold shadow-[0_0_50px_rgba(139,92,246,0.7)] hover:scale-105 transition">
+          Falar comigo
+        </button>
+
+      </section>
+
+    </main>
   );
 }
